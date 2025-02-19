@@ -76,8 +76,8 @@ class IndexScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => context.push('/login'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3498DB),
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromRGBO(34, 47, 62, 0.9),
+                    foregroundColor: const Color(0xFFF39C12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -90,13 +90,13 @@ class IndexScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => context.push('/registro'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2ECC71),
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromRGBO(34, 47, 62, 0.9),
+                    foregroundColor: const Color(0xFFF39C12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                        horizontal: 33, vertical: 12),
                   ),
                   child: const Text('Registrarse'),
                 ),

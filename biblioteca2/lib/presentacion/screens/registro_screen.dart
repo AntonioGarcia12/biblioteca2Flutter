@@ -20,6 +20,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
   final UsuarioService _usuarioService = UsuarioService();
 
   bool _isLoading = false;
+  bool _passwordVisible = false;
 
   @override
   void dispose() {
@@ -85,7 +86,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
 
       _showOverlayMessage("Registro exitoso");
 
-      Future.delayed(const Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 2), () {
         context.go('/login');
       });
     } catch (e) {
@@ -108,7 +109,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/index'); // Cambia esto según la ruta de tu 'index'
+            context.go('/index');
           },
         ),
         title: const Text(
@@ -136,97 +137,114 @@ class _RegistroScreenState extends State<RegistroScreen> {
           ),
         ),
         child: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.all(40.0),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 15,
-                    offset: const Offset(0, 4),
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(40.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 15,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              constraints: const BoxConstraints(
-                maxWidth: 800,
-                minWidth: 300,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Registro',
-                    style: TextStyle(
-                      color: Color(0xFF2C3E50),
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  constraints: const BoxConstraints(
+                    maxWidth: 800,
+                    minWidth: 300,
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _nombreController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _apellidosController,
-                    decoration: const InputDecoration(
-                      labelText: 'Apellidos',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Correo Electrónico',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Contraseña',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  _isLoading
-                      ? const CircularProgressIndicator()
-                      : OutlinedButton.icon(
-                          onPressed: _register,
-                          icon: const Icon(Icons.person_add,
-                              color: Color(0xFFE74C3C)),
-                          label: const Text('Registrar'),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: const Color(0xFFE74C3C),
-                            side: const BorderSide(color: Color(0xFFE74C3C)),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Registro',
+                        style: TextStyle(
+                          color: Color(0xFF2C3E50),
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _nombreController,
+                        decoration: const InputDecoration(
+                          labelText: 'Nombre',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _apellidosController,
+                        decoration: const InputDecoration(
+                          labelText: 'Apellidos',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Correo Electrónico',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: !_passwordVisible,
+                        decoration: InputDecoration(
+                          labelText: 'Contraseña',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.grey,
                             ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
                           ),
                         ),
-                  TextButton(
-                    onPressed: () {
-                      context.go('/login');
-                    },
-                    child: const Text(
-                      '¿Ya tienes una cuenta? Inicia sesión aquí',
-                      style: TextStyle(color: Color(0xFF3498DB)),
-                    ),
+                      ),
+                      const SizedBox(height: 30),
+                      _isLoading
+                          ? const CircularProgressIndicator()
+                          : OutlinedButton.icon(
+                              onPressed: _register,
+                              label: const Text('Registrar'),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: const Color(0xFFE74C3C),
+                                side:
+                                    const BorderSide(color: Color(0xFFE74C3C)),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 12,
+                                ),
+                              ),
+                            ),
+                      TextButton(
+                        onPressed: () {
+                          context.go('/login');
+                        },
+                        child: const Text(
+                          '¿Ya tienes una cuenta? Inicia sesión aquí',
+                          style: TextStyle(color: Color(0xFF3498DB)),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
