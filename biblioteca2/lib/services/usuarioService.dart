@@ -35,7 +35,6 @@ class UsuarioService {
           estado: 1,
         );
 
-        // Almacenar el token en SharedPreferences.
         final String token = data["token"];
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);

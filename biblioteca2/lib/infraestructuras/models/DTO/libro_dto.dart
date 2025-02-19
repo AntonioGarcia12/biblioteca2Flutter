@@ -9,7 +9,6 @@ class LibroPrestamoDTO {
     required this.cantidad,
   });
 
-  // Método para crear una instancia de LibroPrestamoDTO a partir de un JSON
   factory LibroPrestamoDTO.fromJson(Map<String, dynamic> json) {
     return LibroPrestamoDTO(
       libro: Libro.fromJson(json["libro"]),

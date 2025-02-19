@@ -133,8 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(
-                    height: 80), // Ajusta la altura según lo que prefieras
+                const SizedBox(height: 80),
                 Center(
                   child: Container(
                     padding: const EdgeInsets.all(40.0),
