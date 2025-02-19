@@ -27,9 +27,8 @@ final appRouter = GoRouter(initialLocation: '/index', routes: [
       path: '/usuarios',
       name: UsuarioScreen.name,
       builder: (context, state) => const UsuarioScreen()),
-      GoRoute(
+  GoRoute(
       path: '/librosPrestadosPorMes',
       name: LibrosPrestadorPorMesScreen.name,
       builder: (context, state) => const LibrosPrestadorPorMesScreen()),
-  
 ]);

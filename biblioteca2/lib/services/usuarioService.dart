@@ -5,7 +5,6 @@ import 'package:biblioteca2/infraestructuras/models/usuario.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioService {
-  /// Realiza el login enviando email y contraseña
   Future<Usuario> login(String email, String contrasenya) async {
     final Uri url =
         Uri.parse("https://apibiblioteca2.up.railway.app/api/auth/login");
@@ -17,8 +16,7 @@ class UsuarioService {
       },
       body: {
         'email': email,
-        'contrasenya':
-            contrasenya, // Usamos la clave correcta que espera el API.
+        'contrasenya': contrasenya,
       },
     );
 
