@@ -1,4 +1,4 @@
-Creendenciles para entrar y probar:
+Creendenciales para entrar y probar:
 ADMINISTRADOR
 email: admin@gmail.com
 contraseña: admin
