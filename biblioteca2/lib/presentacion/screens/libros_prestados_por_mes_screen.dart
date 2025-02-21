@@ -106,7 +106,7 @@ class _LibrosPrestadorPorMesScreenState
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(
-                        color: const Color.fromRGBO(34, 47, 62, 0.95),
+                        color: const Color(0xFF2C3E50),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: const Color(0xFFF39C12)),
                       ),
@@ -114,7 +114,7 @@ class _LibrosPrestadorPorMesScreenState
                         child: DropdownButton<String>(
                           value: _selectedMonth,
                           isExpanded: true,
-                          dropdownColor: const Color.fromRGBO(34, 47, 62, 0.95),
+                          dropdownColor: const Color(0xFF2C3E50),
                           hint: const Text('Selecciona un mes',
                               style: TextStyle(color: Colors.white)),
                           items: meses.map((mes) {
@@ -148,24 +148,42 @@ class _LibrosPrestadorPorMesScreenState
                             horizontal: 16.0,
                             vertical: 8.0,
                           ),
-                          elevation: 4,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
+                          elevation: 6,
+                          color: const Color(0xFF2C3E50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: const BorderSide(
+                                color: Color(0xFFF39C12), width: 2),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(20.0),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/images/libroPorDefecto.png',
+                                width: 75,
+                                height: 75,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            title: Text(
+                              corregirCaracteres(libro.titulo),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text("Autor: ${libro.autor}",
+                                    style: TextStyle(color: Colors.white70)),
+                                Text("Género: ${libro.genero}",
+                                    style: TextStyle(color: Colors.white70)),
                                 Text(
-                                  corregirCaracteres(libro.titulo),
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text("Autor: ${libro.autor}"),
-                                Text("Género: ${libro.genero}"),
-                                Text(
-                                    "Cantidad prestada: ${libroPrestamo.cantidad}"),
+                                    "Cantidad prestada: ${libroPrestamo.cantidad}",
+                                    style: TextStyle(color: Colors.white70)),
                               ],
                             ),
                           ),

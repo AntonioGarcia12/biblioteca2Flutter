@@ -6,6 +6,33 @@ class AdministradorScreen extends StatelessWidget {
 
   const AdministradorScreen({super.key});
 
+  void _mostrarConfirmacionLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cerrar sesión'),
+          content: const Text('¿Estás seguro de que deseas cerrar sesión?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.go('/index');
+              },
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +51,9 @@ class AdministradorScreen extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.logout_outlined, color: Colors.white),
-              onPressed: () => context.go('/index'),
+              onPressed: () {
+                _mostrarConfirmacionLogout(context);
+              },
             ),
           ],
           bottom: const PreferredSize(

@@ -15,16 +15,23 @@ class UsuarioScreen extends StatefulWidget {
 
 class _UsuarioScreenState extends State<UsuarioScreen> {
   final PrestamoService _prestamoService = PrestamoService();
-
   String? _filtroGenero;
   String _orden = 'asc';
-
   late Future<List<LibroPrestamoDTO>> _futurePrestamos;
+  String _nombreUsuario = "";
 
   @override
   void initState() {
     super.initState();
+    _cargarNombreUsuario();
     _futurePrestamos = _cargarPrestamos();
+  }
+
+  Future<void> _cargarNombreUsuario() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _nombreUsuario = prefs.getString('nombre') ?? 'Usuario';
+    });
   }
 
   Future<List<LibroPrestamoDTO>> _cargarPrestamos() async {
@@ -55,6 +62,33 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
     });
   }
 
+  void _mostrarConfirmacionLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmar cierre de sesión'),
+          content: const Text('¿Estás seguro de que deseas cerrar sesión?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.go('/index');
+              },
+              child: const Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,18 +96,31 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
         backgroundColor: const Color.fromRGBO(34, 47, 62, 0.95),
         elevation: 4,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          'Mis Préstamos',
-          style: TextStyle(
-            color: Color(0xFFF5F6FA),
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Mis Préstamos',
+              style: TextStyle(
+                color: Color(0xFFF5F6FA),
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              _nombreUsuario,
+              style: const TextStyle(
+                color: Color(0xFFF39C12),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => context.go('/index'),
+            icon: const Icon(Icons.logout_outlined, color: Colors.white),
+            onPressed: () => _mostrarConfirmacionLogout(context),
           ),
         ],
         bottom: const PreferredSize(
@@ -153,23 +200,6 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton(
-                onPressed: () => _actualizarPrestamos(
-                    orden: _orden == 'asc' ? 'desc' : 'asc'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(34, 47, 62, 0.95),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(_orden == 'asc'
-                    ? 'Orden: Ascendente'
-                    : 'Orden: Descendente'),
-              ),
-            ),
             Expanded(
               child: FutureBuilder<List<LibroPrestamoDTO>>(
                 future: _futurePrestamos,
@@ -201,16 +231,33 @@ class _UsuarioScreenState extends State<UsuarioScreen> {
                       return Card(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
+                        elevation: 6,
+                        color: const Color(0xFF2C3E50),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        elevation: 4,
+                          borderRadius: BorderRadius.circular(16),
+                          side: const BorderSide(
+                              color: Color(0xFFF39C12), width: 2),
+                        ),
                         child: ListTile(
+                          contentPadding: const EdgeInsets.all(20.0),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              'assets/images/libroPorDefecto.png',
+                              width: 75,
+                              height: 75,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           title: Text(libro.titulo,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
                           subtitle: Text(
-                              'Autor: ${libro.autor}\nGénero: ${libro.genero}\nCantidad: ${prestamo.cantidad}'),
-                          isThreeLine: true,
+                            'Autor: ${libro.autor}\nGénero: ${libro.genero}\nCantidad: ${prestamo.cantidad}',
+                            style: const TextStyle(color: Colors.white70),
+                          ),
                         ),
                       );
                     },

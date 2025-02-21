@@ -36,8 +36,10 @@ class UsuarioService {
         );
 
         final String token = data["token"];
+        final String nombre = data["nombre"];
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('nombre', nombre);
 
         return usuario;
       } else {
